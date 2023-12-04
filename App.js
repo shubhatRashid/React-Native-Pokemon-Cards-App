@@ -1,4 +1,4 @@
-import { StyleSheet,ScrollView,View } from 'react-native';
+import { StyleSheet,SafeAreaView,View ,FlatList} from 'react-native';
 import Card from './components/Card';
 import { useState } from 'react';
 
@@ -23,23 +23,26 @@ export default function App() {
   }
   
   return (
-    <ScrollView >
-      <View style={styles.container}>
-        {data.map((char,index) =>( 
-          char ?
-          <Card key={index} char={char} id={index+1}/>
-          :
-          <View></View>
-        ))}
-      </View>
-    </ScrollView>
+    <SafeAreaView>
+      <FlatList
+        contentContainerStyle = {styles.container}
+        data={data}
+        renderItem={({item,index}) => (
+          item?
+          <Card char={item} id={index+1}/>
+          : <View></View>
+        )}
+
+        keyExtractor={(item,index) => index}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical:50,
-    flex: 1,
+    paddingVertical:80,
+    width:"100%",
     justifyContent:"center",
     alignItems:"center",
     gap:100,

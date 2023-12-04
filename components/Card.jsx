@@ -1,13 +1,10 @@
 import { useState,useEffect } from "react";
-import { View,Text,Image,StyleSheet,useWindowDimensions } from "react-native"
-var hight;
-
+import { View,Text,Image,StyleSheet,useWindowDimensions} from "react-native"
 export default  Card = ({char,id}) => {
-  hight = useWindowDimensions().height;
   const [data,setData] = useState([])
   const [hp,setHp] = useState()
   const [moves,setMoves] = useState([])
-
+  const {height, width} = useWindowDimensions();
   const fetchData = async (url) => {
     try {
       const response = await fetch(url);
@@ -25,9 +22,9 @@ export default  Card = ({char,id}) => {
   }
 
   return (
-    <View style={[styles.outerBox]}>
+    <View style={[styles.outerBox,{height:height-100,width:width-50}]}>
         <View style={styles.hpView}>
-             <Text style={styles.hpText}>❤️HP:{hp}</Text>
+             <Text style={styles.hpText}>❤️HP : {hp}</Text>
         </View>
         <Image 
             source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}} 
@@ -70,8 +67,6 @@ export default  Card = ({char,id}) => {
 const styles = StyleSheet.create({
     outerBox : {
         position:"relative",
-        height:700,
-        width:"90%",
         borderWidth:5,
         borderRadius:20,
         justifyContent:"center",
@@ -106,7 +101,7 @@ const styles = StyleSheet.create({
         gap:5
     },
     text:{
-        color:"teal",
+        color:"white",
         backgroundColor:"black",
         fontSize:15,
         fontFamily:"sans-serif",
@@ -122,6 +117,7 @@ const styles = StyleSheet.create({
         right:20
     },
     hpText:{
+        color:"teal",
         fontSize:17,
         fontFamily:"serif"
     },
