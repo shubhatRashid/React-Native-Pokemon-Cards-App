@@ -1,5 +1,7 @@
-import { StyleSheet,SafeAreaView,View ,FlatList} from 'react-native';
+import { StyleSheet,SafeAreaView,View ,FlatList,Text} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import Card from './components/Card';
+import Header from './components/Header';
 import { useState } from 'react';
 
 export default function App() {
@@ -34,6 +36,10 @@ export default function App() {
         )}
 
         keyExtractor={(item,index) => index}
+        ItemSeparatorComponent={<View style={{height:20}}></View>}
+        ListEmptyComponent={<Text>No Items Found</Text>}
+        ListHeaderComponent={<Header text="Pokemon Cards"/>}
+        ListFooterComponent={<Header text="Thats All For Now"/>}
       />
     </SafeAreaView>
   );
@@ -41,11 +47,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical:80,
+    paddingTop:15,
     width:"100%",
     justifyContent:"center",
     alignItems:"center",
-    gap:100,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
