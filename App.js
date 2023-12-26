@@ -1,4 +1,4 @@
-import { StyleSheet,SafeAreaView,View ,FlatList,Text} from 'react-native';
+import { StyleSheet,SafeAreaView,View ,FlatList,Text,ActivityIndicator} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Card from './components/Card';
 import Header from './components/Header';
@@ -6,6 +6,8 @@ import { useState } from 'react';
 
 export default function App() {
   const [data,setData] = useState([])
+  const [loading,setLoading] = useState(true)
+  const [refreshing,setRefreshing] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -14,15 +16,30 @@ export default function App() {
       );
       const json = await response.json();
       setData(json.results);
+      setLoading(false)
     } catch (error) {
       alert(error);
     }
   }
 
+  const handleRefresh = () => {
+    setRefreshing(true)
+    fetchData()
+    alert("refreshed")
+    setRefreshing(false)
+  }
   
   if (data.length === 0){
     fetchData()
   }
+  
+  if (loading){
+    return (
+      <View style = {styles.loading}>
+        <ActivityIndicator  size="large"/>
+      </View>
+    )
+  }else
   
   return (
     <SafeAreaView>
@@ -40,6 +57,8 @@ export default function App() {
         ListEmptyComponent={<Text>No Items Found</Text>}
         ListHeaderComponent={<Header text="Pokemon Cards"/>}
         ListFooterComponent={<Header text="Thats All For Now"/>}
+        refreshing = {refreshing}
+        onRefresh={handleRefresh}
       />
     </SafeAreaView>
   );
@@ -47,7 +66,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop:15,
+    paddingTop:40,
     width:"100%",
     justifyContent:"center",
     alignItems:"center",
@@ -55,4 +74,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loading : {
+    flex:1,
+    alignItems : "center",
+    justifyContent:'center'
+  }
 });
