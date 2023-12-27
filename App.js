@@ -8,6 +8,7 @@ export default function App() {
   const [data,setData] = useState([])
   const [loading,setLoading] = useState(true)
   const [refreshing,setRefreshing] = useState(false)
+  const [error,setError] = useState()
 
   const fetchData = async () => {
     try {
@@ -18,7 +19,8 @@ export default function App() {
       setData(json.results);
       setLoading(false)
     } catch (error) {
-      alert(error);
+      setError(error)
+      setLoading(false)
     }
   }
 
@@ -39,6 +41,10 @@ export default function App() {
         <ActivityIndicator  size="large"/>
       </View>
     )
+  }else if (error){
+    return ( <View style = {styles.loading}>
+      <Header text={error.message}/>
+    </View>)
   }else
   
   return (
