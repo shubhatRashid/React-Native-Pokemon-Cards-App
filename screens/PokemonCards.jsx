@@ -3,7 +3,8 @@ import Card from '../components/Card';
 import Header from '../components/Header';
 import { useState } from 'react';
 
-export default PokemonCards = () => {
+export default PokemonCards = ({route}) => {
+  const {name} = route.params
   const [data,setData] = useState([])
   const [loading,setLoading] = useState(true)
   const [refreshing,setRefreshing] = useState(false)
@@ -60,7 +61,7 @@ export default PokemonCards = () => {
         keyExtractor={(item,index) => index}
         ItemSeparatorComponent={<View style={{height:20}}></View>}
         ListEmptyComponent={<Text>No Items Found</Text>}
-        ListHeaderComponent={<Header text="Pokemon Cards"/>}
+        ListHeaderComponent={<Header text= {'Hi ' + name + ' Enjoy ⬇️'}/>}
         ListFooterComponent={<Header text="Thats All For Now"/>}
         refreshing = {refreshing}
         onRefresh={handleRefresh}
